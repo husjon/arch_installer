@@ -1,9 +1,9 @@
 # vim: ft=sh
 
-cp ./arch-install.sh /mnt/
+cp ${SCRIPT_DIR}/arch-install.sh /mnt/
 
 mkdir -p /mnt/instructions
-cp -r instructions/chroot /mnt/instructions/
+cp -r ${SCRIPT_DIR}/instructions/chroot /mnt/instructions/
 
 arch-chroot /mnt /arch-install.sh chroot
 

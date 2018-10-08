@@ -1,3 +1,5 @@
+cd $(dirname $(realpath $0))
+
 info() {
     printf "$*\n"
 }
@@ -10,7 +12,7 @@ wait_to_continue() {
 
 STAGE=${1:-pre_install}
 
-cd $(dirname $(realpath $0))
+export SCRIPT_DIR=$(pwd)
 
 OLD_PWD=${PWD}
 cd instructions/${STAGE}

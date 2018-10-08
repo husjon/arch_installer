@@ -15,6 +15,7 @@ cd $(dirname $(realpath $0))
 OLD_PWD=${PWD}
 cd instructions/${STAGE}
 for instruction in `ls`; do
+    echo "$executing $(realpath $instruction)"
     bash ./$instruction || wait_to_continue
 done
 cd $OLD_PWD

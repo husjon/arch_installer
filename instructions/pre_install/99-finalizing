@@ -9,4 +9,4 @@ arch-chroot /mnt /arch-install.sh chroot
 
 # cleanup
 rm -r /mnt/instructions
-rm /mnt/arch-install-chroot.sh
+rm /mnt/arch-install.sh

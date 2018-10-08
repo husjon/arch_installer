@@ -8,7 +8,7 @@ wait_to_continue() {
     info "\n\n\n"
 }
 
-STAGE=${1:-pre}
+STAGE=${1:-pre_install}
 
 cd $(dirname $(realpath $0))
 

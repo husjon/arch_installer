@@ -1,0 +1,12 @@
+# vim: ft=sh
+
+cp ./arch-install-chroot.sh /mnt/
+
+mkdir -p /mnt/instructions
+cp -r instructions/chroot /mnt/instructions/
+
+arch-chroot /mnt /arch-install.sh chroot
+
+# cleanup
+rm -r /mnt/instructions
+rm /mnt/arch-install-chroot.sh

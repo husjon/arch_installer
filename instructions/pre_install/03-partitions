@@ -1,0 +1,66 @@
+# vim: ft=sh
+
+# pre partition cleanup
+umount -R /mnt
+rm -rf /mnt/*
+
+
+# script from: https://superuser.com/a/984637
+TGTDEV=/dev/nvme0n1
+ROOT_PARTITION_SIZE=64
+
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}
+  g     # clear the in memory partition table
+  n     # new partition
+  1     # partition number 1
+        # default - start at beginning of disk
+  +512M # 512 MB boot parttion (EFI)
+  y     # in case the signature already exists, this will remove the previous signature
+  n     # new partition
+  2     # partion number 2
+        # default, start immediately after preceding partition
+  +${ROOT_PARTITION_SIZE}G  # 64GB root
+  n     # new partition
+  3     # partion number 3
+        # default, start immediately after preceding partition
+  +8G   # 8GB swap
+  y     # in case the signature already exists, this will remove the previous signature
+  n     # new partition
+  4     # partion number 4
+        # default, start immediately after preceding partition
+        # default, extend partition to end of disk
+  y     # in case the signature already exists, this will remove the previous signature
+  t     # partition type
+  1     # partition 1
+  1     # EFI
+  t     # partition type
+  2     # partition 2
+  24    # ROOT
+  t     # partition type
+  3     # partition 3
+  19    # SWAP
+  t     # partition type
+  4     # partition 4
+  28    # HOME
+  p     # print the in-memory partition table
+  w     # write the partition table
+  q     # and we're done
+EOF
+
+
+# create filesystem and swap
+mkfs.fat  -F32  ${TGTDEV}p1
+mkfs.ext4 -F    ${TGTDEV}p2
+mkswap          ${TGTDEV}p3
+swapon          ${TGTDEV}p3
+mkfs.ext4 -F    ${TGTDEV}p4
+
+
+# mount all the partitions
+mount           ${TGTDEV}p2     /mnt
+
+mkdir -p /mnt/boot/efi
+mount           ${TGTDEV}p1     /mnt/boot/efi
+
+mkdir -p /mnt/home
+mount           ${TGTDEV}p4     /mnt/home

@@ -1,0 +1,9 @@
+# vim: ft=sh
+
+PACKAGES=(
+    iw
+    wireless_tools
+    wpa_supplicant
+)
+
+pacman --noconfirm -S "${PACKAGES[@]}"

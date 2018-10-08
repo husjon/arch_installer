@@ -7,3 +7,5 @@ PACKAGES=(
 )
 
 pacman --noconfirm -S "${PACKAGES[@]}"
+
+iwconfig $wifi_interface power off

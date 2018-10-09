@@ -1,0 +1,7 @@
+test:
+  script:
+  - echo hello world test
+
+run:
+  script:
+  - echo hello world run

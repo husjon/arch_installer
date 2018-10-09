@@ -1,4 +1,5 @@
 run:
+  only:
+    workstation
   script:
-  - ls -lh
-  - git checkout laptop && git rebase master
+  - git rebase master && git push

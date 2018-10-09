@@ -47,20 +47,24 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}
   q     # and we're done
 EOF
 
+if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
+    # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
+    TGTDEV=${TGTDEV}
+fi
 
 # create filesystem and swap
-mkfs.fat  -F32  ${TGTDEV}p1
-mkfs.ext4 -F    ${TGTDEV}p2
-mkswap          ${TGTDEV}p3
-swapon          ${TGTDEV}p3
-mkfs.ext4 -F    ${TGTDEV}p4
+mkfs.fat  -F32  ${TGTDEV}1
+mkfs.ext4 -F    ${TGTDEV}2
+mkswap          ${TGTDEV}3
+swapon          ${TGTDEV}3
+mkfs.ext4 -F    ${TGTDEV}4
 
 
 # mount all the partitions
-mount           ${TGTDEV}p2     /mnt
+mount           ${TGTDEV}2     /mnt
 
 mkdir -p /mnt/boot/efi
-mount           ${TGTDEV}p1     /mnt/boot/efi
+mount           ${TGTDEV}1     /mnt/boot/efi
 
 mkdir -p /mnt/home
-mount           ${TGTDEV}p4     /mnt/home
+mount           ${TGTDEV}4     /mnt/home

@@ -19,7 +19,7 @@ export SCRIPT_DIR=$(pwd)
 OLD_PWD=${PWD}
 cd instructions/${SCRIPT_STAGE}
 for instruction in `ls`; do
-    echo "$executing $(realpath $instruction)"
+    echo "executing $(realpath $instruction)"
     bash ./$instruction || wait_to_continue
 done
 cd $OLD_PWD

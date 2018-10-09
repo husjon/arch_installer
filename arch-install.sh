@@ -10,12 +10,11 @@ wait_to_continue() {
     info "\n\n\n"
 }
 
-STAGE=${1:-pre_install}
-
+SCRIPT_STAGE=${1:-pre_install}
 export SCRIPT_DIR=$(pwd)
 
 OLD_PWD=${PWD}
-cd instructions/${STAGE}
+cd instructions/${SCRIPT_STAGE}
 for instruction in `ls`; do
     echo "$executing $(realpath $instruction)"
     bash ./$instruction || wait_to_continue

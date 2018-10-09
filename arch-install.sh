@@ -1,7 +1,9 @@
 cd $(dirname $(realpath $0))
 
-source ./global-variables.sh
-source ./user-variables.sh
+export SCRIPT_DIR=$(pwd)
+
+source ${SCRIPT_DIR}/global-variables.sh
+source ${SCRIPT_DIR}/user-variables.sh
 
 info() {
     printf "$*\n"
@@ -14,7 +16,6 @@ wait_to_continue() {
 }
 
 SCRIPT_STAGE=${1:-pre_install}
-export SCRIPT_DIR=$(pwd)
 
 INSTRUCTIONS_PATH="instructions/${SCRIPT_STAGE}"
 

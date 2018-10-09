@@ -2,4 +2,6 @@ run:
   only:
   - wow_thisisatest
   script:
-  - git rebase master && git push
+  - git branch
+  - git rebase master
+  - git push

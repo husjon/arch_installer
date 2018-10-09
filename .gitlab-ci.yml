@@ -4,4 +4,4 @@ test:
 
 run:
   script:
-  - echo hello world run
+  - printenv

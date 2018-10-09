@@ -1,5 +1,5 @@
 run:
   only:
-    workstation
+    wow_thisisatest
   script:
   - git rebase master && git push

@@ -10,6 +10,7 @@ export PACKAGES=(
 
 export TGTDEV=/dev/nvme0n1
 export ROOT_PARTITION_SIZE=64
+export SWAP_SIZE=8  # Leave uncommented to calculate from totam memory
 
 export HOSTNAME=laptop
 export DOMAIN=local

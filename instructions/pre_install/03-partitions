@@ -7,6 +7,7 @@ rm -rf /mnt/*
 
 # script from: https://superuser.com/a/984637
 TOTAL_MEMORY=$(cat /proc/meminfo |grep MemTotal | awk '{print int($2/1000000)}')
+SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}
   g     # clear the in memory partition table
@@ -22,7 +23,7 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}
   n     # new partition
   3     # partion number 3
         # default, start immediately after preceding partition
-  +${TOTAL_MEMORY}G   # 8GB swap
+  +${SWAP_SIZE}G   # 8GB swap
   y     # in case the signature already exists, this will remove the previous signature
   n     # new partition
   4     # partion number 4

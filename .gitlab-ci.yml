@@ -1,5 +1,5 @@
 run:
   only:
-    wow_thisisatest
+  - wow_thisisatest
   script:
   - git rebase master && git push

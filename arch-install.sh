@@ -16,13 +16,15 @@ wait_to_continue() {
 SCRIPT_STAGE=${1:-pre_install}
 export SCRIPT_DIR=$(pwd)
 
-OLD_PWD=${PWD}
-for instruction in `ls`; do
-    cd instructions/${SCRIPT_STAGE}
-    echo "executing $(realpath $instruction)"
-    bash ./$instruction || wait_to_continue
-    echo "finished  $(realpath $instruction)"
-    cd ${OLD_PWD}
+INSTRUCTIONS_PATH="instructions/${SCRIPT_STAGE}"
+
+for instruction in `find ${INSTRUCTIONS_PATH}`; do
+    [[ -f $instruction ]] && {
+        instruction_path="$(realpath $instruction)"
+        echo "executing: $instruction_path"
+        #bash ./$instruction || wait_to_continue
+        echo "finished:  $instruction_path"
+    }
 done
-cd $OLD_PWD
+
 exit 0

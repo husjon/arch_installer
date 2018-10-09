@@ -9,55 +9,53 @@ rm -rf /mnt/*
 TOTAL_MEMORY=$(awk '/MemTotal/ {printf "%3.0f", ($2/1024000)}' /proc/meminfo)
 SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}
-  g     # clear the in memory partition table
+(
+    echo g                          # clear the in memory partition table
 
-  n     # new partition
-  1     # partition number 1
-        # default - start at beginning of disk
-  +512M # 512 MB boot parttion (EFI)
-  y     # in case the signature already exists, this will remove the previous signature
+    echo n                          # new partition
+    echo 1                          # partition number 1
+    echo                            # default - start at beginning of disk
+    echo +512M                      # 512 MB boot parttion (EFI)
+    echo y                          # in case the signature already exists, this will remove the previous signature
 
-  n     # new partition
-  2     # partion number 2
-        # default, start immediately after preceding partition
-  +${ROOT_PARTITION_SIZE}G  # 64GB root
-  y     # in case the signature already exists, this will remove the previous signature
+    echo n                          # new partition
+    echo 2                          # partion number 2
+    echo                            # default, start immediately after preceding partition
+    echo +${ROOT_PARTITION_SIZE}G   # 64GB root
+    echo y                          # in case the signature already exists, this will remove the previous signature
 
-  n     # new partition
-  3     # partion number 3
-        # default, start immediately after preceding partition
-  +${SWAP_SIZE}G   # 8GB swap
-  y     # in case the signature already exists, this will remove the previous signature
+    echo n                          # new partition
+    echo 3                          # partion number 3
+    echo                            # default, start immediately after preceding partition
+    echo +${SWAP_SIZE}G             # 8GB swap
+    echo y                          # in case the signature already exists, this will remove the previous signature
 
-  n     # new partition
-  4     # partion number 4
-        # default, start immediately after preceding partition
-        # default, extend partition to end of disk
-  y     # in case the signature already exists, this will remove the previous signature
+    echo n                          # new partition
+    echo 4                          # partion number 4
+    echo                            # default, start immediately after preceding partition
+    echo                            # default, extend partition to end of disk
+    echo y                          # in case the signature already exists, this will remove the previous signature
 
-  t     # partition type
-  1     # partition 1
-  1     # EFI
+    echo t                          # partition type
+    echo 1                          # partition 1
+    echo 1                          # EFI
 
-  t     # partition type
-  2     # partition 2
-  24    # ROOT
+    echo t                          # partition type
+    echo 2                          # partition 2
+    echo 24                         # ROOT
 
-  t     # partition type
-  3     # partition 3
-  19    # SWAP
+    echo t                          # partition type
+    echo 3                          # partition 3
+    echo 19                         # SWAP
 
-  t     # partition type
-  4     # partition 4
-  28    # HOME
+    echo t                          # partition type
+    echo 4                          # partition 4
+    echo 28                         # HOME
 
-  p     # print the in-memory partition table
+    echo p                          # print the in-memory partition table
 
-  w     # write the partition table
-
-  q     # and we're done
-EOF
+    echo w                          # write the partition table
+) | fdisk ${TGTDEV}
 
 if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
     # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)

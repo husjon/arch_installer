@@ -2,7 +2,6 @@ run:
   only:
   - wow_thisisatest
   script:
-  - printenv | sort
-  - git branch
+  - git checkout ${CI_BUILD_REF_NAME}
   - git rebase master
   - git push

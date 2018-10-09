@@ -1,5 +1,8 @@
 cd $(dirname $(realpath $0))
 
+source ./global-variables.sh
+source ./user-variables.sh
+
 info() {
     printf "$*\n"
 }

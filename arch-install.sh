@@ -17,10 +17,12 @@ SCRIPT_STAGE=${1:-pre_install}
 export SCRIPT_DIR=$(pwd)
 
 OLD_PWD=${PWD}
-cd instructions/${SCRIPT_STAGE}
 for instruction in `ls`; do
+    cd instructions/${SCRIPT_STAGE}
     echo "executing $(realpath $instruction)"
     bash ./$instruction || wait_to_continue
+    echo "finished  $(realpath $instruction)"
+    cd ${OLD_PWD}
 done
 cd $OLD_PWD
 exit 0

@@ -2,6 +2,7 @@ run:
   only:
   - wow_thisisatest
   script:
+  - printenv | sort
   - git branch
   - git rebase master
   - git push

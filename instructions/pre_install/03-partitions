@@ -6,7 +6,7 @@ rm -rf /mnt/*
 
 
 # script from: https://superuser.com/a/984637
-TOTAL_MEMORY=$(cat /proc/meminfo |grep MemTotal | awk '{print int($2/1000000)}')
+TOTAL_MEMORY=$(awk '/MemTotal/ {printf "%3.0f", ($2/1024000)}' /proc/meminfo)
 SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}

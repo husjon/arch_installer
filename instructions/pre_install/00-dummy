@@ -1,0 +1,5 @@
+# vim: ft=sh
+
+#printenv | sort
+#
+#sleep 1201203

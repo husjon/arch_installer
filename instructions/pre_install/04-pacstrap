@@ -1,11 +1,3 @@
 # vim: ft=sh
 
-PACKAGES=(
-    base
-    base-devel
-
-    openssh
-    python3
-)
-
 pacstrap /mnt "${PACKAGES[@]}"

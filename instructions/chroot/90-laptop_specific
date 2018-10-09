@@ -1,11 +1,11 @@
 # vim: ft=sh
 
-PACKAGES=(
+LAPTOP_PACKAGES=(
     iw
     wireless_tools
     wpa_supplicant
 )
 
-pacman --noconfirm -S "${PACKAGES[@]}"
+pacman --noconfirm -S "${LAPTOP_PACKAGES[@]}"
 
 iwconfig $wifi_interface power off

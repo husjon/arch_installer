@@ -6,8 +6,6 @@ rm -rf /mnt/*
 
 
 # script from: https://superuser.com/a/984637
-TGTDEV=/dev/nvme0n1
-ROOT_PARTITION_SIZE=64
 TOTAL_MEMORY=$(cat /proc/meminfo |grep MemTotal | awk '{print int($2/1000000)}')
 
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' <<-EOF | fdisk ${TGTDEV}

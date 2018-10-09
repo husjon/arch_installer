@@ -8,12 +8,11 @@ export PACKAGES=(
     python3
 )
 
-export TGTDEV=/dev/nvme0n1
-export ROOT_PARTITION_SIZE=64
-export SWAP_SIZE=8  # Leave uncommented to calculate from totam memory
+export TGTDEV=
+export ROOT_PARTITION_SIZE=
+#export SWAP_SIZE=              # Leave uncommented to calculate from total memory
 
-export HOSTNAME=laptop
+export HOSTNAME=
 export DOMAIN=local
 
 export KEYMAP=no-latin1
-

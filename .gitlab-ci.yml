@@ -1,7 +1,4 @@
-test:
-  script:
-  - echo hello world test
-
 run:
   script:
-  - printenv
+  - ls -lh
+  - git checkout laptop && git rebase master

@@ -1,12 +1,10 @@
 # vim: ft=sh
 
-cp ${SCRIPT_DIR}/arch-install.sh /mnt/
+OUT_FOLDER=$(basename ${SCRIPT_DIR})
 
-mkdir -p /mnt/instructions
-cp -r ${SCRIPT_DIR}/instructions/chroot /mnt/instructions/
+cp -r "${SCRIPT_DIR}" /mnt
 
-arch-chroot /mnt /arch-install.sh chroot
+arch-chroot /mnt /${OUT_FOLDER}/arch-install.sh chroot
 
 # cleanup
-rm -r /mnt/instructions
-rm /mnt/arch-install.sh
+rm -r /mnt/${OUT_FOLDER}

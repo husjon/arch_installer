@@ -18,7 +18,7 @@ export SCRIPT_DIR=$(pwd)
 
 INSTRUCTIONS_PATH="instructions/${SCRIPT_STAGE}"
 
-for instruction in `find ${INSTRUCTIONS_PATH}`; do
+for instruction in $(find ${INSTRUCTIONS_PATH} | sort); do
     [[ -f $instruction ]] && {
         instruction_path="$(realpath $instruction)"
         echo "executing: $instruction_path"

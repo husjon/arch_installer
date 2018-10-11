@@ -8,4 +8,4 @@ LAPTOP_PACKAGES=(
 
 pacman --noconfirm -S "${LAPTOP_PACKAGES[@]}"
 
-iwconfig $wifi_interface power off
+iwconfig wlp2s0 power off

@@ -49,10 +49,31 @@ case $STAGE in
             SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
             if [[ -n $EFI ]]; then
-            # {{{
-            (
-                echo q
-            ) | fdisk "${TGTDEV}"
+            # EFI {{{
+                (
+                    echo q
+                ) | fdisk "${TGTDEV}"
+
+                if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
+                    # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
+                    TGTDEV=${TGTDEV}p
+                fi
+
+                # create filesystem and swap
+                mkfs.fat  -F32  ${TGTDEV}1
+                mkfs.ext4 -F    ${TGTDEV}2
+                mkswap          ${TGTDEV}3
+                swapon          ${TGTDEV}3
+                mkfs.ext4 -F    ${TGTDEV}4
+
+                # mount all the partitions
+                mount           ${TGTDEV}2     /mnt
+
+                mkdir -p /mnt/boot/efi
+                mount           ${TGTDEV}1     /mnt/boot/efi
+
+                mkdir -p /mnt/home
+                mount           ${TGTDEV}4     /mnt/home
             # }}}
             else
             # MBR {{{
@@ -86,7 +107,20 @@ case $STAGE in
                 echo w                          # write the partition table
             ) | fdisk "${TGTDEV}"
             fi
+            if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
+                # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
+                TGTDEV=${TGTDEV}p
+            fi
+
+            # create filesystem and swap
+            mkfs.ext4 -F    ${TGTDEV}1
+            mkswap          ${TGTDEV}2
+            swapon          ${TGTDEV}2
+
+            # mount all the partitions
+            mount           ${TGTDEV}1     /mnt
             # }}}
+
         # }}}
         # pacstrap {{{
             pacstrap /mnt "${PACKAGES[@]}"

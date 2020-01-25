@@ -1,5 +1,0 @@
-# vim: ft=sh
-
-ln -sf /usr/share/zoneinfo/Europe/Oslo /etc/localtime
-
-hwclock --systohc

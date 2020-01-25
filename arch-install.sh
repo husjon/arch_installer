@@ -168,6 +168,9 @@ case $STAGE in
         # initfsram{{{
             mkinitcpio -p linux
         # }}}
+        # load CA certificate {{{
+            trust anchor --store /cacert.pem && rm /cacert.pem
+        # }}}
         # bootloader {{{
             if [ "$EFI" = true ]; then
                 pacman --noconfirm -S grub intel-ucode efibootmgr

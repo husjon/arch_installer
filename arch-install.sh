@@ -29,11 +29,7 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
-            yes | pacman -Sy reflector
-            cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-
-            reflector -c norway -c sweden -p https -f 5 > /etc/pacman.d/mirrorlist || \
-            cp /etc/pacman.d/mirrorlist.bak /etc/pacman.d/mirrorlist
+            echo "Server = https://homeserver/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
         # }}}
         # set-ntp {{{
             timedatectl set-ntp true

@@ -47,8 +47,46 @@ case $STAGE in
             if [ "$EFI" = true ]; then
             # EFI {{{
                 (
-                    echo q
-                ) | fdisk "${TGTDEV}"
+                    # fdisk {{{
+                    echo g                          # clear the in memory partition table
+
+                    echo n                          # new partition
+                    echo 1                          # partition number 1
+                    echo                            # default - start at beginning of disk
+                    echo +512M                      # 512 MB boot parttion (EFI)
+                    echo y                          # in case the signature already exists, this will remove the previous signature
+
+                    echo t                          # partition type
+                    echo 1                          # partition 1
+                    echo 1                          # EFI
+
+
+                    echo n                          # new partition
+                    echo 2                          # partion number 3
+                    echo                            # default, start immediately after preceding partition
+                    echo +${SWAP_SIZE}G             # 8GB swap
+                    echo y                          # in case the signature already exists, this will remove the previous signature
+
+                    echo t                          # partition type
+                    echo 2                          # partition 3
+                    echo 19                         # SWAP
+
+
+                    echo n                          # new partition
+                    echo 3                          # partion number 2
+                    echo                            # default, start immediately after preceding partition
+                    echo                            # 64GB root
+                    echo y                          # in case the signature already exists, this will remove the previous signature
+
+                    echo t                          # partition type
+                    echo 3                          # partition 2
+                    echo 24                         # ROOT
+
+                    echo p                          # print the in-memory partition table
+
+                    echo w                          # write the partition table
+                    # }}}
+                ) | fdisk ${TGTDEV}
 
                 if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
                     # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
@@ -57,23 +95,20 @@ case $STAGE in
 
                 # create filesystem and swap
                 mkfs.fat  -F32  ${TGTDEV}1
-                mkfs.ext4 -F    ${TGTDEV}2
-                mkswap          ${TGTDEV}3
-                swapon          ${TGTDEV}3
-                mkfs.ext4 -F    ${TGTDEV}4
+                mkswap          ${TGTDEV}2
+                swapon          ${TGTDEV}2
+                mkfs.ext4 -F    ${TGTDEV}3
 
                 # mount all the partitions
                 mount           ${TGTDEV}2     /mnt
 
                 mkdir -p /mnt/boot/efi
                 mount           ${TGTDEV}1     /mnt/boot/efi
-
-                mkdir -p /mnt/home
-                mount           ${TGTDEV}4     /mnt/home
             # }}}
             else
             # MBR {{{
             (
+                # fdisk {{{
                 echo o                          # clear the in memory partition table
 
                 echo n                          # new partition
@@ -101,6 +136,7 @@ case $STAGE in
                 echo p                          # print the in-memory partition table
 
                 echo w                          # write the partition table
+                # }}}
             ) | fdisk "${TGTDEV}"
             if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
                 # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
@@ -177,7 +213,7 @@ case $STAGE in
                 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
             else
                 pacman --noconfirm -S grub
-                grub-install --target=i386-pc "${TGTDEV}1"
+                grub-install --target=i386-pc "${TGTDEV}"
             fi
             grub-mkconfig -o /boot/grub/grub.cfg
         # }}}
@@ -191,6 +227,5 @@ case $STAGE in
 			EOF
             systemctl enable systemd-networkd
         # }}}
-        exit
     ;; # }}}
 esac

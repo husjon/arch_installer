@@ -9,3 +9,4 @@ export HOSTNAME=packer-arch
 export DOMAIN=local
 
 export KEYMAP=no-latin1
+export EFI=false

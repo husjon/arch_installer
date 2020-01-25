@@ -100,7 +100,7 @@ case $STAGE in
                 mkfs.ext4 -F    ${TGTDEV}3
 
                 # mount all the partitions
-                mount           ${TGTDEV}2     /mnt
+                mount           ${TGTDEV}3     /mnt
 
                 mkdir -p /mnt/boot/efi
                 mount           ${TGTDEV}1     /mnt/boot/efi

@@ -106,7 +106,6 @@ case $STAGE in
 
                 echo w                          # write the partition table
             ) | fdisk "${TGTDEV}"
-            fi
             if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
                 # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
                 TGTDEV=${TGTDEV}p
@@ -120,6 +119,7 @@ case $STAGE in
             # mount all the partitions
             mount           ${TGTDEV}1     /mnt
             # }}}
+            fi
 
         # }}}
         # pacstrap {{{

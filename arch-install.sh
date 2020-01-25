@@ -48,7 +48,7 @@ case $STAGE in
             TOTAL_MEMORY=$(awk '/MemTotal/ {printf "%3.0f", ($2/1024000)}' /proc/meminfo)
             SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
-            if [[ -n $EFI ]]; then
+            if [ "$EFI" = true ]; then
             # EFI {{{
                 (
                     echo q
@@ -172,7 +172,7 @@ case $STAGE in
             mkinitcpio -p linux
         # }}}
         # bootloader {{{
-            if [[ -n $EFI ]]; then
+            if [ "$EFI" = true ]; then
                 pacman --noconfirm -S grub intel-ucode efibootmgr
                 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
             else

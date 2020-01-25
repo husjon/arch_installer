@@ -1,17 +1,27 @@
-cd $(dirname $(realpath $0))
-export SCRIPT_DIR=$(pwd)
+#!/bin/bash
+
+cd "$(dirname "$(realpath "$0")")" || return
 
 # VARIABLES {{{
 HOST=${1:-NOT_SET}
 STAGE=${2:-NOT_SET}
 
+SCRIPT_DIR=$(pwd)
+
 source ./global-variables.sh
-source ./host-variables/${HOST}.sh || exit 1
+# shellcheck source=host-variables/_template.sh
+source "./host-variables/${HOST}.sh"
 # }}}
 
 # HELPER FUNCTIONS {{{
-info() { printf "$*\n" }
-wait_to_continue() { info "Press any key to continue"; read -n 1; info "\n\n\n" }
+info() {
+    printf "%s\n" "$*"
+}
+wait_to_continue() {
+    info "Press any key to continue"
+    read -r -n 1
+    info "\n\n\n"
+}
 # }}}
 
 
@@ -34,19 +44,20 @@ case $STAGE in
         # partitions {{{
             # pre partition cleanup
             umount -R /mnt
-            rm -rf /mnt/*
+            # shellcheck disable=SC2114
+            rm -rf "/mnt/*"
 
             # script from: https://superuser.com/a/984637
             TOTAL_MEMORY=$(awk '/MemTotal/ {printf "%3.0f", ($2/1024000)}' /proc/meminfo)
             SWAP_SIZE=${SWAP_SIZE:-$TOTAL_MEMORY}
 
-            [[ ! -z $EFI ]] && {
+            if [[ -n $EFI ]]; then
             # {{{
             (
                 echo q
-            ) | fdisk ${TGTDEV}
+            ) | fdisk "${TGTDEV}"
             # }}}
-            } || {
+            else
             # MBR {{{
             (
                 echo o                          # clear the in memory partition table
@@ -55,7 +66,7 @@ case $STAGE in
                 echo p                          # primary partition type
                 echo 1                          # partion number 2
                 echo                            # default, start immediately after preceding partition
-                echo +${ROOT_PARTITION_SIZE}G   # 64GB root
+                echo "+${ROOT_PARTITION_SIZE}G" # 64GB root
                 echo y                          # in case the signature already exists, this will remove the previous signature
 
                 echo n                          # new partition
@@ -76,9 +87,9 @@ case $STAGE in
                 echo p                          # print the in-memory partition table
 
                 echo w                          # write the partition table
-            ) | fdisk ${TGTDEV}
+            ) | fdisk "${TGTDEV}"
+            fi
             # }}}
-            }
         # }}}
         # pacstrap {{{
             pacstrap /mnt "${PACKAGES[@]}"
@@ -87,19 +98,19 @@ case $STAGE in
             genfstab -U /mnt >> /mnt/etc/fstab
         # }}}
         # arch-chroot {{{
-            OUT_FOLDER=$(basename ${SCRIPT_DIR})
+            OUT_FOLDER=$(basename "${SCRIPT_DIR}")
 
             cp -r "${SCRIPT_DIR}" /mnt
 
-            arch-chroot /mnt /${OUT_FOLDER}/arch-install.sh ARCH-CHROOT
+            arch-chroot /mnt "/${OUT_FOLDER}/arch-install.sh" ARCH-CHROOT
 
             # cleanup
-            rm -r /mnt/${OUT_FOLDER}
+            rm -r "/mnt/${OUT_FOLDER:?}"
         # }}}
     ;; # }}}
     ARCH-CHROOT) # {{{
         # date time {{{
-            ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
+            ln -sf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
             hwclock --systohc
         # }}}
         # locale {{{
@@ -130,13 +141,13 @@ case $STAGE in
             mkinitcpio -p linux
         # }}}
         # bootloader {{{
-            [[ ! -z $EFI ]] && {
+            if [[ -n $EFI ]]; then
                 pacman --noconfirm -S grub intel-ucode efibootmgr
                 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
-            } || {
+            else
                 pacman --noconfirm -S grub
                 grub-install --bootloader-id=ARCH
-            }
+            fi
             grub-mkconfig -o /boot/grub/grub.cfg
         # }}}
         # root password{{{

@@ -184,5 +184,13 @@ case $STAGE in
         # root password{{{
             echo root:password | chpasswd
         # }}}
+        # enable systemd-networkd with enabled DHCP {{{
+            cat <<-EOF > /etc/systemd/network/ethernet.network
+			[Network]
+			DHCP=ipv4
+			EOF
+            systemctl enable systemd-networkd
+        # }}}
+        exit
     ;; # }}}
 esac

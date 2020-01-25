@@ -25,9 +25,6 @@ wait_to_continue() {
 # }}}
 
 
-exit 123
-
-
 # INSTALL
 case $STAGE in
     PRE-INSTALL) # {{{

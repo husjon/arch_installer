@@ -165,11 +165,11 @@ case $STAGE in
 			127.0.1.1       ${HOSTNAME}.${DOMAIN}   ${HOSTNAME}
 			EOF
         # }}}
-        # initfsram{{{
-            mkinitcpio -p linux
-        # }}}
         # load CA certificate {{{
             trust anchor --store /cacert.pem && rm /cacert.pem
+        # }}}
+        # initfsram{{{
+            mkinitcpio -p linux
         # }}}
         # bootloader {{{
             if [ "$EFI" = true ]; then

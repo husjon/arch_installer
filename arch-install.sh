@@ -127,9 +127,10 @@ case $STAGE in
         # arch-chroot {{{
             OUT_FOLDER=$(basename "${SCRIPT_DIR}")
 
-            cp -r "${SCRIPT_DIR}" /mnt
+            cp -r "${SCRIPT_DIR}" "/mnt/${OUT_FOLDER}"
+            cp /tmp/cacert.pem /mnt/
 
-            arch-chroot /mnt "/${OUT_FOLDER}/arch-install.sh" ARCH-CHROOT
+            arch-chroot /mnt "/${OUT_FOLDER}/arch-install.sh" "${HOST}" ARCH-CHROOT
 
             # cleanup
             rm -r "/mnt/${OUT_FOLDER:?}"

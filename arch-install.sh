@@ -102,8 +102,8 @@ case $STAGE in
                 # mount all the partitions
                 mount           ${TGTDEV}3     /mnt
 
-                mkdir -p /mnt/boot/efi
-                mount           ${TGTDEV}1     /mnt/boot/efi
+                mkdir -p /mnt/boot
+                mount           ${TGTDEV}1     /mnt/boot
             # }}}
             else
             # MBR {{{
@@ -208,14 +208,22 @@ case $STAGE in
             mkinitcpio -p linux
         # }}}
         # bootloader {{{
-            if [ "$EFI" = true ]; then
-                pacman --noconfirm -S grub intel-ucode efibootmgr
-                grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
-            else
-                pacman --noconfirm -S grub
-                grub-install --target=i386-pc "${TGTDEV}"
-            fi
-            grub-mkconfig -o /boot/grub/grub.cfg
+            bootctl --path=/boot/ install
+            cat <<-EOF > /boot/loader/entries/arch.conf
+			title   Arch Linux
+			linux   /vmlinuz-linux
+			initrd  /initramfs-linux.img
+			options root=LABEL=arch_os rw
+			EOF
+
+#           if [ "$EFI" = true ]; then
+#               pacman --noconfirm -S grub intel-ucode efibootmgr
+#               grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
+#           else
+#               pacman --noconfirm -S grub
+#               grub-install --target=i386-pc "${TGTDEV}"
+#           fi
+#           grub-mkconfig -o /boot/grub/grub.cfg
         # }}}
         # root password{{{
             echo root:password | chpasswd

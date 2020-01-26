@@ -203,7 +203,7 @@ case $STAGE in
             trust anchor --store /cacert.pem && rm /cacert.pem
         # }}}
         # initfsram{{{
-            mkinitcpio -p linux
+            mkinitcpio -P
         # }}}
         # bootloader {{{
             bootctl --path=/boot/ install

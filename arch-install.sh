@@ -233,5 +233,8 @@ case $STAGE in
 			EOF
             systemctl enable systemd-networkd
         # }}}
+        # enable systemd-networkd with enabled DHCP {{{
+            systemctl enable sshd
+        # }}}
     ;; # }}}
 esac

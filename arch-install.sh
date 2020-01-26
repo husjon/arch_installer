@@ -219,14 +219,6 @@ case $STAGE in
 			initrd  /initramfs-linux.img
 			options root=UUID=${DISK_UUID} rw
 			EOF
-#           if [ "$EFI" = true ]; then
-#               pacman --noconfirm -S grub intel-ucode efibootmgr
-#               grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH
-#           else
-#               pacman --noconfirm -S grub
-#               grub-install --target=i386-pc "${TGTDEV}"
-#           fi
-#           grub-mkconfig -o /boot/grub/grub.cfg
         # }}}
         # root password{{{
             echo root:password | chpasswd

@@ -170,6 +170,8 @@ case $STAGE in
 
             # cleanup
             rm -r "/mnt/${OUT_FOLDER:?}"
+            umount /mnt/boot
+            umount /mnt/
         # }}}
     ;; # }}}
     ARCH-CHROOT) # {{{

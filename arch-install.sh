@@ -207,13 +207,14 @@ case $STAGE in
         # }}}
         # bootloader {{{
             bootctl --path=/boot/ install
+            DISK_UUID=$(blkid -s UUID -o value ${TGTDEV}3)
+
             cat <<-EOF > /boot/loader/entries/arch.conf
 			title   Arch Linux
 			linux   /vmlinuz-linux
 			initrd  /initramfs-linux.img
-			options root=LABEL=arch_os rw
+			options root=UUID=${DISK_UUID} rw
 			EOF
-
 #           if [ "$EFI" = true ]; then
 #               pacman --noconfirm -S grub intel-ucode efibootmgr
 #               grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ARCH

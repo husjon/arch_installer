@@ -166,6 +166,8 @@ case $STAGE in
 
             arch-chroot /mnt "/${OUT_FOLDER}/arch-install.sh" "${HOST}" ARCH-CHROOT
 
+            cp -r ~/.ssh /mnt/root/
+
             # cleanup
             rm -r "/mnt/${OUT_FOLDER:?}"
         # }}}

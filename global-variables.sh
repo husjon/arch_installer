@@ -3,7 +3,9 @@
 export PACKAGES=(
     base
     base-devel
+    linux
+    linux-firmware
 
     openssh
-    python3
+    python
 )

@@ -1,7 +1,0 @@
-# vim: ft=sh
-
-yes | pacman -Sy reflector
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-
-reflector -c norway -c sweden -p https -f 5 > /etc/pacman.d/mirrorlist || \
-    cp /etc/pacman.d/mirrorlist.bak /etc/pacman.d/mirrorlist

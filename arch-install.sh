@@ -62,7 +62,7 @@ case $STAGE in
                     echo n                          # new partition
                     echo 2                          # partion number 3
                     echo                            # default, start immediately after preceding partition
-                    echo +${SWAP_SIZE}G             # 8GB swap
+                    echo "+${SWAP_SIZE}G"           # 8GB swap
                     echo y                          # in case the signature already exists, this will remove the previous signature
 
                     echo t                          # partition type

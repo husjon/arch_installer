@@ -35,8 +35,6 @@ case $STAGE in
             timedatectl set-ntp true
         # }}}
         # partitions {{{
-            # pre partition cleanup
-            umount -R /mnt
             # shellcheck disable=SC2114
             rm -rf "/mnt/*"
 

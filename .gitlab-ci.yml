@@ -1,8 +1,12 @@
 ---
-alpine stuff:
-  tags:
-    - alpine
+image: "ubuntu:18.04"
+
+before_script:
+  - apt update -qq
+  - apt install -qq -y shellcheck
+  - shellcheck --version
+
+lint:
   script:
-    - apk add --no-cache shellcheck
     - shellcheck *.sh **/*.sh
 

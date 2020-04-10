@@ -29,7 +29,7 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
-            echo "Server = https://homeserver/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+            echo 'Server = https://homeserver/$repo/os/$arch' > /etc/pacman.d/mirrorlist
         # }}}
         # set-ntp {{{
             timedatectl set-ntp true

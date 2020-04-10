@@ -225,6 +225,8 @@ case $STAGE in
         # }}}
         # enable systemd-networkd with enabled DHCP {{{
             cat <<-EOF > /etc/systemd/network/ethernet.network
+			[Match]
+			Name=*
 			[Network]
 			DHCP=ipv4
 			EOF

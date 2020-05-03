@@ -216,6 +216,7 @@ case $STAGE in
             cat <<-EOF > /boot/loader/entries/arch.conf
 			title   Arch Linux
 			linux   /vmlinuz-linux
+			initrd  /intel-ucode.img
 			initrd  /initramfs-linux.img
 			options root=UUID=${DISK_UUID} rw
 			EOF
@@ -225,6 +226,8 @@ case $STAGE in
         # }}}
         # enable systemd-networkd with enabled DHCP {{{
             cat <<-EOF > /etc/systemd/network/ethernet.network
+			[Match]
+			Name=*
 			[Network]
 			DHCP=ipv4
 			EOF

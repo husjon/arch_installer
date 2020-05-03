@@ -1,9 +1,8 @@
 ---
-image: "ubuntu:18.04"
+image: "alpine:3.11"
 
 before_script:
-  - apt update -qq
-  - apt install -qq -y shellcheck
+  - apk add --no-cache shellcheck
   - shellcheck --version
 
 lint:

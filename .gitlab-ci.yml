@@ -9,3 +9,5 @@ lint:
   script:
     - shellcheck *.sh **/*.sh
 
+  except:
+    - master

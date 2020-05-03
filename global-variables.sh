@@ -5,6 +5,7 @@ export PACKAGES=(
     base-devel
     linux
     linux-firmware
+    lvm2
 
     openssh
     python

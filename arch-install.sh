@@ -218,7 +218,8 @@ case $STAGE in
 			linux   /vmlinuz-linux
 			initrd  /intel-ucode.img
 			initrd  /initramfs-linux.img
-			options root=UUID=${DISK_UUID} rw
+			options root=/dev/vg0/root rw
+			options resume=/dev/vg0/swap rw
 			EOF
         # }}}
         # root password{{{

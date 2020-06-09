@@ -230,6 +230,7 @@ case $STAGE in
 			Name=*
 			[Network]
 			DHCP=ipv4
+			Domains=local
 			EOF
             systemctl enable systemd-networkd
         # }}}

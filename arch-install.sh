@@ -233,6 +233,7 @@ case $STAGE in
 			Domains=local
 			EOF
             systemctl enable systemd-networkd
+            systemctl enable systemd-resolved
         # }}}
         # enable systemd-networkd with enabled DHCP {{{
             systemctl enable sshd

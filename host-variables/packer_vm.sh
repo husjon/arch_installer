@@ -3,7 +3,7 @@
 export TIMEZONE=Europe/Oslo
 
 export TGTDEV=/dev/vda
-export ROOT_PARTITION_SIZE=9
+export ROOT_PARTITION_SIZE=20
 
 export HOSTNAME=packer-arch
 export DOMAIN=local

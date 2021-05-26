@@ -93,9 +93,13 @@ case $STAGE in
 
                 # create filesystem and swap
                 mkfs.fat  -F32  ${TGTDEV}1
+
                 mkswap          ${TGTDEV}2
                 swapon          ${TGTDEV}2
+                e2label         ${TGTDEV}2 SWAP
+
                 mkfs.ext4 -F    ${TGTDEV}3
+                e2label         ${TGTDEV}3 ROOT
 
                 # mount all the partitions
                 mount           ${TGTDEV}3     /mnt
@@ -143,8 +147,11 @@ case $STAGE in
 
             # create filesystem and swap
             mkfs.ext4 -F    ${TGTDEV}1
+            e2label         ${TGTDEV}1 ROOT
+
             mkswap          ${TGTDEV}2
             swapon          ${TGTDEV}2
+            e2label         ${TGTDEV}2 SWAP
 
             # mount all the partitions
             mount           ${TGTDEV}1     /mnt
@@ -211,14 +218,12 @@ case $STAGE in
         # }}}
         # bootloader {{{
             bootctl --path=/boot/ install
-            DISK_UUID=$(blkid -s UUID -o value ${TGTDEV}3)
-
             cat <<-EOF > /boot/loader/entries/arch.conf
 			title   Arch Linux
 			linux   /vmlinuz-linux
 			initrd  /intel-ucode.img
 			initrd  /initramfs-linux.img
-			options root=UUID=${DISK_UUID} rw
+			options root=LABEL=ROOT resume=LABEL=SWAP rw
 			EOF
         # }}}
         # root password{{{

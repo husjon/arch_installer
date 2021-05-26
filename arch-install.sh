@@ -93,9 +93,13 @@ case $STAGE in
 
                 # create filesystem and swap
                 mkfs.fat  -F32  ${TGTDEV}1
+
                 mkswap          ${TGTDEV}2
                 swapon          ${TGTDEV}2
+                e2label         ${TGTDEV}2 SWAP
+
                 mkfs.ext4 -F    ${TGTDEV}3
+                e2label         ${TGTDEV}3 ROOT
 
                 # mount all the partitions
                 mount           ${TGTDEV}3     /mnt
@@ -143,8 +147,11 @@ case $STAGE in
 
             # create filesystem and swap
             mkfs.ext4 -F    ${TGTDEV}1
+            e2label         ${TGTDEV}1 ROOT
+
             mkswap          ${TGTDEV}2
             swapon          ${TGTDEV}2
+            e2label         ${TGTDEV}2 SWAP
 
             # mount all the partitions
             mount           ${TGTDEV}1     /mnt

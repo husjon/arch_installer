@@ -6,5 +6,7 @@ before_script:
   - shellcheck --version
 
 lint:
+  tags:
+    - alpine
   script:
     - shellcheck *.sh **/*.sh

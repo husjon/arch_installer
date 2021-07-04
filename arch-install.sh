@@ -219,14 +219,20 @@ case $STAGE in
             mkinitcpio -P
         # }}}
         # bootloader {{{
-            bootctl --path=/boot/ install
-            cat <<-EOF > /boot/loader/entries/arch.conf
-			title   Arch Linux
-			linux   /vmlinuz-linux
-			initrd  /intel-ucode.img
-			initrd  /initramfs-linux.img
-			options root=LABEL=ROOT resume=LABEL=SWAP rw
-			EOF
+            if [ "$EFI" = true ]; then
+                bootctl --path=/boot/ install
+                cat <<-EOF > /boot/loader/entries/arch.conf
+				title   Arch Linux
+				linux   /vmlinuz-linux
+				initrd  /intel-ucode.img
+				initrd  /initramfs-linux.img
+				options root=LABEL=ROOT resume=LABEL=SWAP rw
+				EOF
+            else
+                grub-install ${TGTDEV}
+                grub-mkconfig -o /boot/grub/grub.cfg
+            fi
+
         # }}}
         # root password{{{
             echo root:password | chpasswd

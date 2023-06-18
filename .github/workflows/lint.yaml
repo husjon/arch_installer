@@ -1,0 +1,28 @@
+name: Lint
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    container: alpine:latest
+    steps:
+      - name: Install dependencies
+        run: |
+          apk add --no-cache shellcheck
+
+      - uses: actions/checkout@v2
+
+      - name: Lint global variables
+        run: |
+          shellcheck global-variables.sh
+
+      - name: Lint host-variables
+        run: |
+          find host-variables -iname '*.sh' -exec sh -c 'echo {}; shellcheck {}; echo' \;
+
+      - name: Lint arch-install.sh
+        run: |
+          shellcheck arch-install.sh

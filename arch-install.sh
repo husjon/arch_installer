@@ -161,7 +161,7 @@ case $STAGE in
 
         # }}}
         # pacstrap {{{
-            pacstrap /mnt "${PACKAGES[@]}"
+            pacstrap -K /mnt "${PACKAGES[@]}"
         # }}}
         # genfstab {{{
             genfstab -U /mnt >> /mnt/etc/fstab

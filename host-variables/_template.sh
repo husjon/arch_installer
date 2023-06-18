@@ -20,5 +20,7 @@ export LOCALES=(
 # export LOCALE_CONF_LANG=en_GB.UTF-8
 # export LOCALE_CONF_LC_TIME=en_GB.UTF-8
 
+# One of [intel-ucode, amd-ucode]
+export MICROCODE=intel-ucode
 
 

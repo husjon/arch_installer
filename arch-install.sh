@@ -52,35 +52,35 @@ case $STAGE in
                     echo g                          # clear the in memory partition table
 
                     echo n                          # new partition
-                    echo 1                          # partition number 1
+                    echo                            # partition number 1
                     echo                            # default - start at beginning of disk
                     echo +512M                      # 512 MB boot parttion (EFI)
                     echo y                          # in case the signature already exists, this will remove the previous signature
 
                     echo t                          # partition type
-                    echo 1                          # partition 1
+                    echo                            # partition 1
                     echo 1                          # EFI
 
 
                     echo n                          # new partition
-                    echo 2                          # partion number 2
+                    echo                            # Select next partition number
                     echo                            # default, start immediately after preceding partition
                     echo "+${SWAP_SIZE}G"           # 8GB swap
                     echo y                          # in case the signature already exists, this will remove the previous signature
 
                     echo t                          # partition type
-                    echo 2                          # partition 2
+                    echo                            # partition 2
                     echo 19                         # SWAP
 
 
                     echo n                          # new partition
-                    echo 3                          # partion number 3
+                    echo                            # Select next partition number
                     echo                            # default, start immediately after preceding partition
                     echo                            # 64GB root
                     echo y                          # in case the signature already exists, this will remove the previous signature
 
                     echo t                          # partition type
-                    echo 3                          # partition 2
+                    echo                            # partition 2
                     echo 24                         # ROOT
 
                     echo p                          # print the in-memory partition table
@@ -118,16 +118,16 @@ case $STAGE in
 
                 echo n                          # new partition
                 echo p                          # primary partition type
-                echo 1                          # partion number 2
+                echo                            # Select next partition number
                 echo                            # default, start immediately after preceding partition
                 echo "+${ROOT_PARTITION_SIZE}G" # 64GB root
                 echo y                          # in case the signature already exists, this will remove the previous signature
 
                 echo n                          # new partition
                 echo p                          # primary partition type
-                echo 2                          # partion number 3
+                echo                            # Select next partition number
                 echo                            # default, start immediately after preceding partition
-                echo                            # 8GB swap
+                echo                            # 64GB root
                 echo y                          # in case the signature already exists, this will remove the previous signature
 
                 echo t                          # partition type

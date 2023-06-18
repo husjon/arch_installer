@@ -97,9 +97,8 @@ case $STAGE in
                 # create filesystem and swap
                 mkfs.fat  -F32  ${TGTDEV}1
 
-                mkswap          ${TGTDEV}2
+                mkswap -L SWAP  ${TGTDEV}2
                 swapon          ${TGTDEV}2
-                e2label         ${TGTDEV}2 SWAP
 
                 mkfs.ext4 -F    ${TGTDEV}3
                 e2label         ${TGTDEV}3 ROOT

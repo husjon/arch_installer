@@ -110,53 +110,53 @@ case $STAGE in
                 mount           ${TGTDEV}1     /mnt/boot
             # }}}
             else
-            # MBR {{{
-            (
-                # fdisk {{{
-                echo o                          # clear the in memory partition table
+                # MBR {{{
+                (
+                    # fdisk {{{
+                    echo o                          # clear the in memory partition table
 
-                echo n                          # new partition
-                echo p                          # primary partition type
-                echo                            # Select next partition number
-                echo                            # default, start immediately after preceding partition
-                echo "+${SWAP_SIZE}G"           # 8GB swap
-                echo y                          # in case the signature already exists, this will remove the previous signature
+                    echo n                          # new partition
+                    echo p                          # primary partition type
+                    echo                            # Select next partition number
+                    echo                            # default, start immediately after preceding partition
+                    echo "+${SWAP_SIZE}G"           # 8GB swap
+                    echo y                          # in case the signature already exists, this will remove the previous signature
 
-                echo n                          # new partition
-                echo p                          # primary partition type
-                echo                            # Select next partition number
-                echo                            # default, start immediately after preceding partition
-                echo                            # 64GB root
-                echo y                          # in case the signature already exists, this will remove the previous signature
+                    echo n                          # new partition
+                    echo p                          # primary partition type
+                    echo                            # Select next partition number
+                    echo                            # default, start immediately after preceding partition
+                    echo                            # 64GB root
+                    echo y                          # in case the signature already exists, this will remove the previous signature
 
-                echo t                          # partition type
-                echo 1                          # partition 2
-                echo 83                         # Linux
+                    echo t                          # partition type
+                    echo 1                          # partition 2
+                    echo 83                         # Linux
 
-                echo t                          # partition type
-                echo 2                          # partition 3
-                echo 82                         # SWAP
+                    echo t                          # partition type
+                    echo 2                          # partition 3
+                    echo 82                         # SWAP
 
-                echo p                          # print the in-memory partition table
+                    echo p                          # print the in-memory partition table
 
-                echo w                          # write the partition table
+                    echo w                          # write the partition table
+                    # }}}
+                ) | fdisk "${TGTDEV}"
+                if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
+                    # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
+                    TGTDEV=${TGTDEV}p
+                fi
+
+                # create filesystem and swap
+                mkswap -L SWAP  ${TGTDEV}1
+                swapon          ${TGTDEV}1
+
+                mkfs.ext4 -F    ${TGTDEV}2
+                e2label         ${TGTDEV}2 ROOT
+
+                # mount all the partitions
+                mount           ${TGTDEV}2     /mnt
                 # }}}
-            ) | fdisk "${TGTDEV}"
-            if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
-                # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
-                TGTDEV=${TGTDEV}p
-            fi
-
-            # create filesystem and swap
-            mkswap -L SWAP  ${TGTDEV}1
-            swapon          ${TGTDEV}1
-
-            mkfs.ext4 -F    ${TGTDEV}2
-            e2label         ${TGTDEV}2 ROOT
-
-            # mount all the partitions
-            mount           ${TGTDEV}2     /mnt
-            # }}}
             fi
 
         # }}}

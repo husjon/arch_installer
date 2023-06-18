@@ -33,7 +33,7 @@ case $STAGE in
         # setup mirrorlist {{{
             rm -f /etc/pacman.d/mirrorlist
             for MIRROR in "${MIRRORS[@]}"; do
-                echo "$MIRROR" >> /etc/pacman.d/mirrorlist
+                echo "Server = $MIRROR" >> /etc/pacman.d/mirrorlist
             done
             echo "Mirrors:"
             cat /etc/pacman.d/mirrorlist

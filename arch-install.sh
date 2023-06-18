@@ -193,10 +193,9 @@ case $STAGE in
         # }}}
         # locale {{{
             cp /etc/locale.gen /tmp/locale.gen
-            sed -e 's/#nb_NO/nb_NO/' \
-                -e 's/#en_GB/en_GB/' \
-                -e 's/#en_US/en_US/' \
-                /tmp/locale.gen > /etc/locale.gen
+            for LOCALE in "${LOCALES[@]}"; do
+                sed -i "s/#${LOCALE}/${LOCALE}/" /etc/locale.gen
+            done
             locale-gen
 
             cat <<-EOF > /etc/locale.conf

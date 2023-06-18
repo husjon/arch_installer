@@ -15,14 +15,9 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Lint global variables
-        run: |
-          shellcheck global-variables.sh
-
-      - name: Lint host-variables
-        run: |
-          find host-variables -iname '*.sh' -exec sh -c 'echo {}; shellcheck {}; echo' \;
-
       - name: Lint arch-install.sh
         run: |
-          shellcheck arch-install.sh
+          shellcheck \
+              host-variables/_template.sh \
+              global-variables.sh \
+              arch-install.sh

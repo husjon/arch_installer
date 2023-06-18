@@ -32,8 +32,8 @@ case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
             rm -f /etc/pacman.d/mirrorlist
-            for MIRROR in ${MIRRORS[@]}; do
-                echo $MIRROR >> /etc/pacman.d/mirrorlist
+            for MIRROR in "${MIRRORS[@]}"; do
+                echo "$MIRROR" >> /etc/pacman.d/mirrorlist
             done
             echo "Mirrors:"
             cat /etc/pacman.d/mirrorlist
@@ -92,27 +92,27 @@ case $STAGE in
 
                     echo w                          # write the partition table
                     # }}}
-                ) | fdisk ${TGTDEV}
+                ) | fdisk "${TGTDEV}"
 
                 if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
                     # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
-                    TGTDEV=${TGTDEV}p
+                    TGTDEV="${TGTDEV}p"
                 fi
 
                 # create filesystem and swap
-                mkfs.fat  -F32  ${TGTDEV}1
+                mkfs.fat  -F32  "${TGTDEV}1"
 
-                mkswap -L SWAP  ${TGTDEV}2
-                swapon          ${TGTDEV}2
+                mkswap -L SWAP  "${TGTDEV}2"
+                swapon          "${TGTDEV}2"
 
-                mkfs.ext4 -F    ${TGTDEV}3
-                e2label         ${TGTDEV}3 ROOT
+                mkfs.ext4 -F    "${TGTDEV}3"
+                e2label         "${TGTDEV}3" ROOT
 
                 # mount all the partitions
-                mount           ${TGTDEV}3     /mnt
+                mount           "${TGTDEV}3"     /mnt
 
                 mkdir -p /mnt/boot
-                mount           ${TGTDEV}1     /mnt/boot
+                mount           "${TGTDEV}1"     /mnt/boot
             # }}}
             else
                 # MBR {{{
@@ -149,18 +149,18 @@ case $STAGE in
                 ) | fdisk "${TGTDEV}"
                 if [[ ${TGTDEV: -1} =~ [0-9] ]]; then
                     # Sets up the partition device naming (ex. with nvme drives named: /dev/nvme0n1)
-                    TGTDEV=${TGTDEV}p
+                    TGTDEV="${TGTDEV}p"
                 fi
 
                 # create filesystem and swap
-                mkswap -L SWAP  ${TGTDEV}1
-                swapon          ${TGTDEV}1
+                mkswap -L SWAP  "${TGTDEV}1"
+                swapon          "${TGTDEV}1"
 
-                mkfs.ext4 -F    ${TGTDEV}2
-                e2label         ${TGTDEV}2 ROOT
+                mkfs.ext4 -F    "${TGTDEV}2"
+                e2label         "${TGTDEV}2" ROOT
 
                 # mount all the partitions
-                mount           ${TGTDEV}2     /mnt
+                mount           "${TGTDEV}2"     /mnt
                 # }}}
             fi
 
@@ -229,7 +229,7 @@ case $STAGE in
 				options root=LABEL=ROOT resume=LABEL=SWAP rw
 				EOF
             else
-                grub-install ${TGTDEV}
+                grub-install "${TGTDEV}"
                 grub-mkconfig -o /boot/grub/grub.cfg
             fi
 

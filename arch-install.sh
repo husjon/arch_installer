@@ -31,7 +31,8 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
-            echo "Server = https://homeserver/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
+            echo "Server = ${MIRRORLIST}" > /etc/pacman.d/mirrorlist
+            sed -i "s/#ParallelDownloads = 5/ParallelDownloads = ${PARALLEL_DOWNLOADS:-5}/" /etc/pacman.conf
         # }}}
         # set-ntp {{{
             timedatectl set-ntp true

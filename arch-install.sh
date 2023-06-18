@@ -120,7 +120,7 @@ case $STAGE in
                 echo p                          # primary partition type
                 echo                            # Select next partition number
                 echo                            # default, start immediately after preceding partition
-                echo "+${ROOT_PARTITION_SIZE}G" # 64GB root
+                echo "+${SWAP_SIZE}G"           # 8GB swap
                 echo y                          # in case the signature already exists, this will remove the previous signature
 
                 echo n                          # new partition
@@ -149,15 +149,14 @@ case $STAGE in
             fi
 
             # create filesystem and swap
-            mkfs.ext4 -F    ${TGTDEV}1
-            e2label         ${TGTDEV}1 ROOT
+            mkswap -L SWAP  ${TGTDEV}1
+            swapon          ${TGTDEV}1
 
-            mkswap          ${TGTDEV}2
-            swapon          ${TGTDEV}2
-            e2label         ${TGTDEV}2 SWAP
+            mkfs.ext4 -F    ${TGTDEV}2
+            e2label         ${TGTDEV}2 ROOT
 
             # mount all the partitions
-            mount           ${TGTDEV}1     /mnt
+            mount           ${TGTDEV}2     /mnt
             # }}}
             fi
 

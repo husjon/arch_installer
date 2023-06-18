@@ -170,7 +170,6 @@ case $STAGE in
             OUT_FOLDER=$(basename "${SCRIPT_DIR}")
 
             cp -r "${SCRIPT_DIR}" "/mnt/${OUT_FOLDER}"
-            cp /tmp/cacert.pem /mnt/
 
             arch-chroot /mnt "/${OUT_FOLDER}/arch-install.sh" "${HOST}" ARCH-CHROOT
 
@@ -210,9 +209,6 @@ case $STAGE in
 			::1             localhost
 			127.0.1.1       ${HOSTNAME}.${DOMAIN}   ${HOSTNAME}
 			EOF
-        # }}}
-        # load CA certificate {{{
-            trust anchor --store /cacert.pem && rm /cacert.pem
         # }}}
         # initfsram{{{
             mkinitcpio -P

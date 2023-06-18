@@ -199,8 +199,8 @@ case $STAGE in
             locale-gen
 
             cat <<-EOF > /etc/locale.conf
-			LANG=en_GB.UTF-8
-			LC_TIME=en_GB.UTF-8
+			LANG=${LOCALE_CONF_LANG:-en_GB.UTF-8}
+			LC_TIME=${LOCALE_CONF_LC_TIME:-en_GB.UTF-8}
 			EOF
 
             echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf

@@ -31,7 +31,12 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
-            echo "Server = ${MIRRORLIST}" > /etc/pacman.d/mirrorlist
+            rm -f /etc/pacman.d/mirrorlist
+            for MIRROR in ${MIRRORS[@]}; do
+                echo $MIRROR >> /etc/pacman.d/mirrorlist
+            done
+            echo "Mirrors:"
+            cat /etc/pacman.d/mirrorlist
             sed -i "s/#ParallelDownloads = 5/ParallelDownloads = ${PARALLEL_DOWNLOADS:-5}/" /etc/pacman.conf
         # }}}
         # set-ntp {{{

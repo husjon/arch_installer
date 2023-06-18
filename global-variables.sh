@@ -12,5 +12,7 @@ export PACKAGES=(
     python
 )
 
-export MIRRORLIST="https://distro_cache.husjon.xyz/archlinux/\$repo/os/\$arch"
+export MIRRORS=(
+    "https://distro_cache.husjon.xyz/archlinux/\$repo/os/\$arch"
+)
 export PARALLEL_DOWNLOADS=10

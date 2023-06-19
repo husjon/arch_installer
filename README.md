@@ -17,9 +17,9 @@ I've been primarily using it when building VMs with [Packer](https://www.packer.
 1. When the ISO has been booted run the following commands:
     ```bash
     cd /tmp
-    wget https://github.com/husjon/arch_installer/archive/refs/tags/v0.1.0.tar.gz
-    tar xfzv v0.1.0.tar.gz
-    cd arch_installer-v0.1.0
+    wget https://github.com/husjon/arch_installer/archive/refs/tags/v0.2.0.tar.gz
+    tar xfzv v0.2.0.tar.gz
+    cd arch_installer-v0.2.0
     ```
 2. Copy `_template.sh` in `host-variables` and make any changes you see fit.
 3. When done, run the following command, replacing `<HOSTNAME>` with the name of the file you copied.

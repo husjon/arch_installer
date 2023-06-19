@@ -5,8 +5,6 @@ export PACKAGES=(
     linux
     linux-firmware
 
-    intel-ucode
-
     openssh
 )
 

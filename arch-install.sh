@@ -31,7 +31,7 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL|INSTALL) # {{{
         # setup mirrorlist {{{
-            if [ ${#MIRRORS[@]} ]; then
+            if [ ${#MIRRORS[@]} -gt 0 ]; then
                 rm -f /etc/pacman.d/mirrorlist
                 for MIRROR in "${MIRRORS[@]}"; do
                     echo "Server = $MIRROR" >> /etc/pacman.d/mirrorlist

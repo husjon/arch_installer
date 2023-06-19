@@ -29,7 +29,7 @@ wait_to_continue() {
 
 # INSTALL
 case $STAGE in
-    PRE-INSTALL) # {{{
+    PRE-INSTALL|INSTALL) # {{{
         # setup mirrorlist {{{
             if [ ${#MIRRORS[@]} ]; then
                 rm -f /etc/pacman.d/mirrorlist

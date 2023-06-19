@@ -10,7 +10,7 @@ export PACKAGES=(
     openssh
 )
 
-export MIRRORS=(
-    "https://distro_cache.husjon.xyz/archlinux/\$repo/os/\$arch"
-)
-export PARALLEL_DOWNLOADS=10
+# export MIRRORS=(
+#     "https://prefered_mirror/archlinux/\$repo/os/\$arch"
+# )
+# export PARALLEL_DOWNLOADS=10

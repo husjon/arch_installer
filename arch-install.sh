@@ -31,10 +31,12 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL) # {{{
         # setup mirrorlist {{{
-            rm -f /etc/pacman.d/mirrorlist
-            for MIRROR in "${MIRRORS[@]}"; do
-                echo "Server = $MIRROR" >> /etc/pacman.d/mirrorlist
-            done
+            if [ ${#MIRRORS[@]} ]; then
+                rm -f /etc/pacman.d/mirrorlist
+                for MIRROR in "${MIRRORS[@]}"; do
+                    echo "Server = $MIRROR" >> /etc/pacman.d/mirrorlist
+                done
+            fi
             echo "Mirrors:"
             cat /etc/pacman.d/mirrorlist
             sed -i "s/#ParallelDownloads = 5/ParallelDownloads = ${PARALLEL_DOWNLOADS:-5}/" /etc/pacman.conf

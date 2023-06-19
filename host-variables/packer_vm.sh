@@ -3,6 +3,7 @@
 export TIMEZONE=Europe/Oslo
 
 export TGTDEV=/dev/vda
+#export SWAP_SIZE=              # Leave uncommented to calculate from total memory
 
 export HOSTNAME=packer-arch
 export DOMAIN=local

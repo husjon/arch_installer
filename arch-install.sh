@@ -9,6 +9,7 @@ HOST=${1:-NOT_SET}
 STAGE=${2:-NOT_SET}
 
 SCRIPT_DIR=$(pwd)
+MIRRORS=()
 
 source ./global-variables.sh
 # shellcheck source=host-variables/_template.sh
@@ -31,7 +32,7 @@ wait_to_continue() {
 case $STAGE in
     PRE-INSTALL|INSTALL) # {{{
         # setup mirrorlist {{{
-            if [ ${#MIRRORS[@]:-()} -gt 0 ]; then
+            if [ ${#MIRRORS[@]} -gt 0 ]; then
                 rm -f /etc/pacman.d/mirrorlist
                 for MIRROR in "${MIRRORS[@]}"; do
                     echo "Server = $MIRROR" >> /etc/pacman.d/mirrorlist

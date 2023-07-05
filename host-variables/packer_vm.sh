@@ -23,6 +23,7 @@ export LOCALES=(
 # Append extra packages here
 PACKAGES+=(
     intel-ucode
+    qemu-guest-agent
 )
 
 # One of [intel-ucode, amd-ucode]

@@ -174,11 +174,11 @@ case $STAGE in
             for _ in {1..300}; do
                 systemctl show pacman-init.service | \
                     grep -q 'SubState=exited' && \
-                    rm -f $KEYRING_INITIALIZING && \
+                    rm -f "$KEYRING_INITIALIZING" && \
                     break
                 sleep 1
             done
-            if [ -f $KEYRING_INITIALIZING ]; then
+            if [ -f "$KEYRING_INITIALIZING" ]; then
                 echo "Keyring did not initialize, aborting!"
                 exit 1
             fi

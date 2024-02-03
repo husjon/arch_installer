@@ -169,16 +169,16 @@ case $STAGE in
 
         # }}}
         # pacstrap {{{
+            KEYRING_INITIALIZING="$(mktemp)"
             echo "Waiting for arch-keyring to initialize"
-            KEYRING_INITIALIZED=false
             for _ in {1..300}; do
                 systemctl show pacman-init.service | \
                     grep -q 'SubState=exited' && \
-                    KEYRING_INITIALIZED=true && \
+                    rm -f $KEYRING_INITIALIZING && \
                     break
                 sleep 1
             done
-            if $KEYRING_INITIALIZED; then
+            if [ -f $KEYRING_INITIALIZING ]; then
                 echo "Keyring did not initialize, aborting!"
                 exit 1
             fi

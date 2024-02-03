@@ -183,6 +183,7 @@ case $STAGE in
                 exit 1
             fi
 
+            yes | pacman -Sy archlinux-keyring
             pacstrap -K /mnt "${PACKAGES[@]}"
         # }}}
         # genfstab {{{

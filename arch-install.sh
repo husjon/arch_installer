@@ -169,6 +169,20 @@ case $STAGE in
 
         # }}}
         # pacstrap {{{
+            echo "Waiting for arch-keyring to initialize"
+            KEYRING_INITIALIZED=false
+            for _ in {1..300}; do
+                systemctl show pacman-init.service | \
+                    grep -q 'SubState=exited' && \
+                    KEYRING_INITIALIZED=true && \
+                    break
+                sleep 1
+            done
+            if $KEYRING_INITIALIZED; then
+                echo "Keyring did not initialize, aborting!"
+                exit 1
+            fi
+
             pacstrap -K /mnt "${PACKAGES[@]}"
         # }}}
         # genfstab {{{
